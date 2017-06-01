@@ -1,0 +1,32 @@
+T13江韋霖學長演講
+嘉義-->一中科班-->T13-->台大資工
+數學-->資訊
+視野很重要
+高中經驗:
+投入競賽，但不是一切
+獨立思考，自主學習(重點)
+高中&大學:
+max差異:學習自由
+思考自己為何學習
+資訊落差:IOH平台
+多看多聽
+自主學習能力(超重要)
+
+what is IT?
+FB,google,Microsoft.......
+&computer science&engineering
+(Hardware&softWare)
+變換很快(Moore's law)
+市場需求大:glassdoor
+google:用廣告賺錢
+software:提供良好服務
+台美軟體業:
+台:半導體,IC,硬體多且強，大型軟體公司:transcend,HTC,訊連，成長中:KKBOX
+美:集中SILICON VALLEY
+畢業出路:出國
+
+美國經驗:薪水高，環境好，要跟教授，很容易找到喜歡的職缺
+cloud machine learning MNIST demo-->AI
+數學很重要
+PhD-school-in-picture
+運算思維(重要)

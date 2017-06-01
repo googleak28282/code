@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Meteor 看版 - 所有文章</title>
+    <meta name="description" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="/css/bootstrap.flatly.css" media="screen">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <meta name="author" content="MeteorApp">
+    <meta name="authorUrl" content="http://meteor.today">
+    <link rel="apple-touch-icon" sizes="57x57" href="/fav/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/fav/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/fav/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/fav/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/fav/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/fav/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/fav/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/fav/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/fav/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/fav/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/fav/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/fav/favicon-16x16.png">
+    <link rel="manifest" href="/fav/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/fav/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../bower_components/html5shiv/dist/html5shiv.js"></script>
+      <script src="../bower_components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-69474518-8', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </head>
+  <body style="background:#f7f7f7;"  ng-app="article" ng-controller="listCtrl" ng-init="init()">
+    <div class="navbar navbar-default navbar-fixed-top" style="background: #17949B">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="/boardlist/all" style="font-size: 20px;color: white;"><img style="width: 60px;" src="/assets/images/logo.png"/>  Meteor</a>
+          <button class="navbar-toggle" ng-click="openMenu()" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav">
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" style="color: white" ng-click="callDownload()">下載APP</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container" style="margin-top:30px;">
+
+      <div class="page-header" id="banner">
+        <div class="row">
+          <div class="col-lg-2 hidden-md hidden-xs">
+            <div class="list-group table-of-contents">
+              <a class="list-group-item" ng-href="/boardlist/all" >所有文章</a>
+              <a class="list-group-item" ng-href="/boardlist/{{b.id}}" ng-repeat="b in boards" ng-bind="b.name">八卦版</a>
+            </div>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <h2 style="margin-bottom:30px;">所有文章</h2>
+                <button ng-class="modeClass('hot')" ng-click="changeMode('hot')" class="btn articleChooser">熱門文章</button>
+                <button ng-class="modeClass('new')" ng-click="changeMode('new')" class="btn articleChooser">最新文章</button>
+                <div ng-repeat="article in articles" class="list-group listItems">
+                    <a ng-href="/article/share/{{article.id}}" href="#" class="list-group-item articles">
+                      <div ng-bind="article.hotPoints" class="circle_star"></div>
+                      <div style="float:right;">{{article.authorSchoolName}} {{article.authorAlias}} <img ng-src="/assets/images/avatar_{{article.authorAvatarId}}_sm.png" style="height: 30px;"/></div>
+                      <div class="titleAndDes" style="display: inline-block;">
+                        <span class="list-group-item-heading" style="font-size: 18px;margin-left: 10px;" ng-bind="article.title.substring(0, 10)"></span>
+                        <p style="white-space:pre-line;margin: 10px;color: gray"
+                          class="list-group-item-text" ng-bind="article.content.split('\n')[0].substring(0, 10)+'...'"></p>
+                      </div>
+                    </a>
+                </div>
+                <div style="text-align: center;" ng-show="loading">
+                  <!-- <img style="width: 50px" src="/assets/images/loadingcircle.gif"/> -->
+                  載入中...
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-2 hidden-xs" >
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- MeteorWeb -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:300px;height:250px"
+                 data-ad-client="ca-pub-9339153293360142"
+                 data-ad-slot="8318228912"></ins><div style="margin-top:30px;">
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <div class="fb-page" data-href="https://www.facebook.com/meteorapp/" data-tabs="timeline" data-width="300" data-small-header="false" data-adapt-container-width="false" data-hide-cover="false" data-show-facepile="true"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/meteorapp/"><a href="https://www.facebook.com/meteorapp/">Meteor高校生社群</a></blockquote></div></div><div style="margin-top:30px;">
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:300px;height:600px"
+                 data-ad-client="ca-pub-9339153293360142"
+                 data-ad-slot="6701894911"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="toggledPop" style="display:none;position: absolute;top: 0;left: 0;right: 0;bottom: 0;background: rgba(0,0,0,.2)">
+      <div ng-click="callDownload()" style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;background: rgba(0,0,0,.2)"></div>
+      <div style="text-align: center; border-radius:10px;position: absolute;top:100px;background: white;left: 50px;right: 50px;height: 300px">
+        <h3 style="text-align: center;margin: 20px;">趕快下載我們的app吧</h3>
+        <a href="https://play.google.com/store/apps/details?id=com.standardcart.meteor"><img style="height: 100px" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"/></a>
+      </div>
+    </div>
+    <style type="text/css">
+    .mainBtn{
+      background: rgba(0,0,0,.0);
+      color: rgba(0,0,0,0.8);
+      padding: 10px;
+      margin-top: 10px;
+      margin-right: 10px;
+      border: 1px solid rgba(0,0,0,0.5);
+    }
+    .mainBtn:hover{
+      background: #459199;
+      border: 0;
+      transition: all 0.5s
+    }
+    .circle_star.ng-binding {
+      display: inline-block;
+      background: #B6ECEF;
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      text-align: center;
+      color: white;
+      border-radius: 50%;
+      vertical-align: top;
+    }
+    .articleChooser{
+      border: 0;
+      margin-bottom: 25px;
+      margin-right: 15px;
+      padding: 11px;
+      background: white;
+      border: 1px solid;
+    }
+    .articleChooser.active {
+        background: #17949B;
+        color: white;
+    }
+    .articleChooser:hover{
+        background: #17949B;
+        color: white;     
+    }
+    </style>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.5&appId=1542368992704440";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <script type="text/javascript">
+      var App = angular.module('article', []);
+
+      App.controller('listCtrl', function ($scope, $http) {
+        $scope.mode = 'hot';
+        $scope.modeClass = function(mode){
+          if (mode == $scope.mode) {
+            return 'active'
+          }else{
+            return 'nonactive'
+          }
+        }
+        $scope.changeMode = function(mode){
+          $scope.cantGetAnymore = false;
+          $scope.mode = mode;
+          $scope.page = 0;
+          $scope.getArticles();
+        };
+        $scope.getArticles = function(){
+          // console.log('getArticles page ',$scope.page)
+          $scope.loading = true;
+          $http.post('/article/get_'+$scope.mode+'_articles',{
+            boardId:'all',
+            page: $scope.page ,
+            varsion:1,
+          })
+          .success(function(response){
+            // console.log(response);
+            if ($scope.page == 0) {
+              $scope.articles = response.result;
+            }else{
+              $scope.articles = $scope.articles.concat(response.result);
+            }
+            $scope.loading = false;
+            // if (response.result.length = 0) {
+            //   $scope.cantGetAnymore = true;
+            // }
+          })
+        }
+        $scope.getMorePage = function(){
+          if (!$scope.loading && !$scope.cantGetAnymore) {
+            $scope.page = $scope.page + 1;
+            $scope.getArticles();
+          }
+        }
+        $scope.init = function(){
+          $scope.toggleUp = false;
+          $http.get('/board/get_boards').success(function(data) {
+            $scope.boards = data.result;
+            // console.log($scope.boards);
+          });
+          $(window).scroll(function(event){
+             if($(window).scrollTop() + $(window).height() > $(document).height() - 10) {
+                 $scope.getMorePage();
+             }
+          })
+          $scope.page = 0;
+          $scope.shopDownload = false;
+          $scope.getArticles();
+          // console.log($scope.repliesList);
+          // $scope.replys = '';
+          // $scope.repliesIdList = [];
+          // for (var i = $scope.replys.split(',').length - 1; i >= 0; i--) {
+          //   $scope.repliesIdList.push($scope.replys.split(',')[i]);
+          // }
+          // console.log($scope.repliesIdList);
+          // $http.post('/comment/get_list_by_id',{})
+        }
+
+        $scope.callDownload = function(){
+          if (!$scope.toggleUp) {
+            $('.toggledPop').css('display','block');
+          }else{
+            $('.toggledPop').css('display','none');            
+          }
+          $scope.toggleUp = !$scope.toggleUp;
+        };
+
+      });
+    </script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-69474518-8', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>
